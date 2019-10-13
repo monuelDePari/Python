@@ -1,19 +1,25 @@
 string = input()
+html_tag = input()
 
 
-def decoratorHtml(left, right):
+def decoratorHtml(tag):
     def decorator(function):
         def wrapper(n1):
-            return left + function(n1) + right
+            return "<" + tag + ">" + function(n1) + "<" + tag + "/>"
 
         return wrapper
 
     return decorator
 
 
-@decoratorHtml("<html>", "</html>")
+@decoratorHtml(html_tag)
 def decorate(n):
     return n
 
 
-print(decorate(string))
+def main():
+    print(decorate(string))
+
+
+if __name__ == '__main__':
+    main()
