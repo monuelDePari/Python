@@ -1,23 +1,22 @@
-# Task2
-string = input()
+def decorateHtml(function):
+    def wrapper(string):
+        func = function(string)
 
-
-def make_GT(function) -> str:
-    def escapist():
-        func = function()
         make_replace = func.replace('&', '&amp').replace('"', '&quot').replace('<', '&lt').replace('>', '&gt')
+
         return make_replace
 
-    return escapist
+    return wrapper
 
 
-@make_GT
-def escape():
+@decorateHtml
+def escape(string):
     return string
 
 
 def main():
-    print(escape())
+    string = input()
+    print(escape(string))
 
 
 if __name__ == '__main__':
