@@ -1,32 +1,65 @@
 import os
+import hashlib
 
 
-def FindDuplicatesByDirectory(path):
-    listOfFile = os.listdir(path)
-    allFiles = list()
-    for entry in listOfFile:
-        fullPath = os.path.join(path, entry)
-        if os.path.isdir(fullPath):
-            allFiles = allFiles + FindDuplicatesByDirectory(fullPath)
-        else:
-            allFiles.append(os.path.basename(fullPath))
-    PrintList(allFiles)
-    #seen_set = set()
-    #duplicate_set = set(x for x in allFiles if x in seen_set or seen_set.add(x))
-    #return list(duplicate_set)
-    dupes = [item for n, item in enumerate(allFiles) if item in allFiles[:n]]
-    return dupes
+blockSize = 512
 
 
-def PrintList(lst):
-    for x in lst:
-        print(x)
+
+def calculate_md5hash(path, blockSize):
+
+    try:
+
+        with open(path, 'rb') as file:
+
+            md5_hash = hashlib.md5()
+
+            chunk = file.read(blockSize)
+
+            while chunk:
+
+                md5_hash.update(chunk)
+
+                chunk = file.read(blockSize)
+
+                return md5_hash.hexdigest()
+
+    except PermissionError as e:
+
+        return e
 
 
-def main():
-    path = input()
-    PrintList(FindDuplicatesByDirectory(path))
+
+def get_duplicates(parent_dir):
+
+    hashes = {}
+
+    for root, directories, files in os.walk(parent_dir):
+
+        for name in files:
+
+            path = os.path.join(root, name)
+
+            filehash = calculate_md5hash(path, blockSize)
+
+            hashes[path] = filehash
+
+    duplicate_files = []
+
+    for k, v in hashes.items():
+
+        if list(hashes.values()).count(v) > 1:
+
+            duplicate_files.append(k)
+
+    return duplicate_files
+
+
+
 
 
 if __name__ == "__main__":
-    main()
+
+    folder_path = input("path to your folder: ")
+
+    print(get_duplicates(folder_path))
