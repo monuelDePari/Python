@@ -1,0 +1,15 @@
+ERROR:root:unknown url type: 'file = download_file(fileurl)'
+Traceback (most recent call last):
+  File "C:/Python/Lab7/FileDownloader.py", line 10, in fileDownload
+    response = urlopen(url)
+  File "C:\Program Files (x86)\Microsoft Visual Studio\Shared\Python37_64\lib\urllib\request.py", line 222, in urlopen
+    return opener.open(url, data, timeout)
+  File "C:\Program Files (x86)\Microsoft Visual Studio\Shared\Python37_64\lib\urllib\request.py", line 510, in open
+    req = Request(fullurl, data)
+  File "C:\Program Files (x86)\Microsoft Visual Studio\Shared\Python37_64\lib\urllib\request.py", line 328, in __init__
+    self.full_url = url
+  File "C:\Program Files (x86)\Microsoft Visual Studio\Shared\Python37_64\lib\urllib\request.py", line 354, in full_url
+    self._parse()
+  File "C:\Program Files (x86)\Microsoft Visual Studio\Shared\Python37_64\lib\urllib\request.py", line 383, in _parse
+    raise ValueError("unknown url type: %r" % self.full_url)
+ValueError: unknown url type: 'file = download_file(fileurl)'

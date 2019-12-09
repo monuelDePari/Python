@@ -4,8 +4,7 @@ import logging
 class FileHandlerByHttp:
     logging.basicConfig(filename="fileExceptionLogger", level=logging.INFO)
 
-    @staticmethod
-    def fileDownload(url):
+    def fileDownload(self, url):
         try:
             from urllib.request import urlopen
             response = urlopen(url)
@@ -23,22 +22,19 @@ class FileHandlerByHttp:
             print("Unexpected error:")
             logging.exception(e)
 
-    @staticmethod
-    def fileIterator(fileName):
+    def fileIterator(self, fileName):
         with open(fileName) as file:
             for line in file:
                 line = str(line).lower().strip('\n').split(' ')
                 yield line
 
-    @staticmethod
-    def wordCounter(generator, fileName):
+    def wordCounter(self, generator, fileName):
         countOfWord = 0
         for line in generator(fileName):
             countOfWord += len(line)
         return countOfWord
 
-    @staticmethod
-    def wordStatsGetter(generator, fileName):
+    def wordStatsGetter(self, generator, fileName):
         lib = dict()
         for line in generator(fileName):
             for iterator in line:
@@ -47,3 +43,11 @@ class FileHandlerByHttp:
                 else:
                     lib[iterator] += 1
         return lib
+
+
+if __name__ == '__main__':
+    urlFile = input()
+    httpHandler = FileHandlerByHttp()
+    file = httpHandler.fileDownload(urlFile)
+    httpHandler.wordCounter(httpHandler.fileIterator, file)
+    httpHandler.wordStatsGetter(httpHandler.fileIterator, file)
